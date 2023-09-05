@@ -8,8 +8,7 @@ app.use(cors());
 
 app.use('/', routes);
 
-// Inicia el servidor
-const port = 3000; // Puedes cambiar el número de puerto si es necesario
+const port = 3000;
 app.listen(port, () => {
     console.log(`Servidor iniciado en el puerto ${port}`);
 });
