@@ -15,17 +15,17 @@ const transporter = nodemailer_1.default.createTransport({
     }
 });
 const enviarCorreo = (req, res) => {
-    const { nombre, correo, mensaje } = req.body;
+    const { name, email, message } = req.body;
     const mailOptions = {
         from: process.env.EMAIL,
         to: 'victoromero2505@gmail.com',
-        subject: `**MENSAJE DEL PORTFOLIO** ----->${correo}`,
+        subject: `**MENSAJE DEL PORTFOLIO** ----->${email}`,
         priority: 'high',
         html: `
         <h2>Detalles del mensaje:</h2>
-        <p><strong>Nombre:</strong> ${nombre}</p>
-        <p><strong>Correo:</strong> ${correo}</p>
-        <p><strong>Mensaje:</strong> ${mensaje}</p>
+        <p><strong>Nombre:</strong> ${name}</p>
+        <p><strong>Correo:</strong> ${email}</p>
+        <p><strong>Mensaje:</strong> ${message}</p>
         `,
     };
     transporter.sendMail(mailOptions, (error, info) => {

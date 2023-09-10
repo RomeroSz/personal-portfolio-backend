@@ -13,29 +13,37 @@ const transporter = nodemailer.createTransport({
 });
 
 export const enviarCorreo = (req: Request, res: Response) => {
-    const { nombre, correo, mensaje } = req.body;
-
-    const mailOptions: any = {
+    const { name, email, message } = req.body;
+    if (!name || !email || !message) {
+        return res.status(400).json({ error: 'Datos inválidos' });
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        return res.status(400).json({ error: 'Correo electrónico inválido' });
+    }
+    const mailOptions = {
         from: process.env.EMAIL,
         to: 'victoromero2505@gmail.com',
-        subject: `**MENSAJE DEL PORTFOLIO** ----->${correo}`,
+        subject: `**MENSAJE DEL PORTAFOLIO** ----->${email}`,
         priority: 'high',
         html: `
-        <h2>Detalles del mensaje:</h2>
-        <p><strong>Nombre:</strong> ${nombre}</p>
-        <p><strong>Correo:</strong> ${correo}</p>
-        <p><strong>Mensaje:</strong> ${mensaje}</p>
-        `,
+      <h2>Detalles del mensaje:</h2>
+      <p><strong>Nombre:</strong> ${name}</p>
+      <p><strong>Correo:</strong> ${email}</p>
+      <p><strong>Mensaje:</strong> ${message}</p>
+      `,
     };
-    transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-            console.error('Error al enviar el correo electrónico:', error);
-            res.status(500).json({ error: 'Error al enviar el correo electrónico' });
-        } else {
-            console.log('Correo electrónico enviado:', info.response);
-            res.status(200).json({ message: 'Correo electrónico enviado correctamente' });
-        }
-    });
+    res.status(200).json({ message: 'Correo electrónico enviado correctamente',  mailOptions});
+    // transporter.sendMail(mailOptions, (error, info) => {
+    //     if (error) {
+    //         console.error('Error al enviar el correo electrónico:', error);
+    //         res.status(500).json({ error: 'Error al enviar el correo electrónico' });
+    //     } else {
+    //         console.log('Correo electrónico enviado:', info.response);
+    //         res.status(200).json({ message: 'Correo electrónico enviado correctamente' });
+    //     }
+    // });
 };
+
 
 module.exports = { enviarCorreo };

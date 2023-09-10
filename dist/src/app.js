@@ -10,8 +10,7 @@ const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use((0, cors_1.default)());
 app.use('/', mainroutes_1.default);
-// Inicia el servidor
-const port = 3000; // Puedes cambiar el número de puerto si es necesario
+const port = 3000;
 app.listen(port, () => {
     console.log(`Servidor iniciado en el puerto ${port}`);
 });
